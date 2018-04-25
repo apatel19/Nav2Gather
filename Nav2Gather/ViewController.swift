@@ -42,7 +42,11 @@ class ViewController : UIViewController {
         //view.addGestureRecognizer(tapGesture)
     }
     
+    
+    
     func getDirections (to destination: MKMapItem) {
+        
+        
         let sourcePlaceMark = MKPlacemark(coordinate: currentCoordinate)
         let sourceMapItem = MKMapItem(placemark: sourcePlaceMark)
         
@@ -58,7 +62,26 @@ class ViewController : UIViewController {
             } else {
                 if let primaryRoute = response?.routes.first {
                 self.mapView.add(primaryRoute.polyline)
-              
+                self.steps = primaryRoute.steps
+                    
+                    self.locationManager.monitoredRegions.forEach({self.locationManager.stopMonitoring(for: $0)})
+                    
+                    for i in 0 ..< primaryRoute.steps.count {
+                        
+                        let step = primaryRoute.steps[i]
+                        print (step.instructions)
+                        print (step.distance)
+                        
+                        let region = CLCircularRegion(center: step.polyline.coordinate, radius: 5, identifier: "\(i)")
+                        
+                        self.locationManager.startMonitoring(for: region)
+                        
+                        let circle = MKCircle(center: region.center, radius: region.radius)
+                        
+                        self.mapView.add(circle)
+                        
+                    }
+                    
                 }
             }
             
@@ -73,13 +96,15 @@ extension ViewController : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        manager.stopUpdatingLocation()
+        //manager.stopUpdatingLocation()
+        
+        
         guard let currentLocation = locations.first else { return }
         currentCoordinate = currentLocation.coordinate
-        mapView.userTrackingMode = .followWithHeading
-        
+        mapView.userTrackingMode = .follow
         
     }
+    
     
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -132,14 +157,25 @@ extension ViewController: MKMapViewDelegate {
         if overlay is MKPolyline {
             print ("In Poly")
             let renderer = MKPolylineRenderer(overlay: overlay)
-            renderer.strokeColor = .black
+            renderer.strokeColor = .blue
             renderer.lineWidth = 8
+            return renderer
+        }
+        if overlay is MKCircle {
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.strokeColor = .blue
+            renderer.fillColor = .red
+            //renderer.alpha = 0.5
             return renderer
         }
         return MKOverlayRenderer()
     }
     
+    
 }
+
+
+
 
     //MARK :- SearchBar Related Stuff
 
@@ -238,7 +274,11 @@ extension ViewController: UITableViewDelegate {
                // let coordinate = response?.mapItems.first.placemark.coordinate
                // print(String(describing: coordinate))
                 guard let myDirTo = response?.mapItems[indexPath.row] else { return }
-                print (myDirTo)
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = myDirTo.placemark.coordinate
+                self.mapView.addAnnotation(annotation)
+                
                 self.getDirections(to: myDirTo)
             }
             else {
