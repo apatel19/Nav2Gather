@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14A9F717208FF66B00C47553 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14A9F716208FF66B00C47553 /* MapKit.framework */; };
 		14B6F369208FAF94000BE520 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6F368208FAF94000BE520 /* AppDelegate.swift */; };
 		14B6F36B208FAF94000BE520 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6F36A208FAF94000BE520 /* ViewController.swift */; };
 		14B6F36E208FAF94000BE520 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14B6F36C208FAF94000BE520 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		14A9F716208FF66B00C47553 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		14B6F365208FAF94000BE520 /* Nav2Gather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nav2Gather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B6F368208FAF94000BE520 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14B6F36A208FAF94000BE520 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,17 +31,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14A9F717208FF66B00C47553 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14A9F715208FF66B00C47553 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				14A9F716208FF66B00C47553 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		14B6F35C208FAF93000BE520 = {
 			isa = PBXGroup;
 			children = (
 				14B6F367208FAF94000BE520 /* Nav2Gather */,
 				14B6F366208FAF94000BE520 /* Products */,
+				14A9F715208FF66B00C47553 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -96,6 +108,14 @@
 				TargetAttributes = {
 					14B6F364208FAF93000BE520 = {
 						CreatedOnToolsVersion = 9.3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
